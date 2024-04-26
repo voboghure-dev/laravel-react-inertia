@@ -1,6 +1,7 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\Project;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,9 +14,12 @@ class DatabaseSeeder extends Seeder {
 		// User::factory(10)->create();
 
 		User::factory()->create( [
-			'name'     => 'Admin User',
-			'email'    => 'admin@admin.com',
-			'password' => bcrypt( 'admin' ),
+			'name'              => 'Admin User',
+			'email'             => 'admin@admin.com',
+			'password'          => bcrypt( 'admin' ),
+			'email_verified_at' => time(),
 		] );
+
+		Project::factory()->count( 30 )->hasTasks( 30 )->create();
 	}
 }
