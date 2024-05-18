@@ -4,6 +4,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from "@/constants";
 import { Head, Link, router } from "@inertiajs/react";
+import SortableTableHeader from "@/Components/SortableTableHeader";
 
 function Index({ auth, projects, queryParams = null }) {
   queryParams = queryParams || {};
@@ -87,28 +88,49 @@ function Index({ auth, projects, queryParams = null }) {
                   </thead>
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th
-                        onClick={(e) => sortChange("id")}
-                        scope="col"
-                        className="px-6 py-3"
+                      <SortableTableHeader
+                        name="id"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChange={sortChange}
                       >
                         ID
-                      </th>
+                      </SortableTableHeader>
                       <th scope="col" className="px-6 py-3">
                         Image
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <SortableTableHeader
+                        name="name"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChange={sortChange}
+                      >
                         Name
-                      </th>
-                      <th scope="col" className="px-6 py-3">
+                      </SortableTableHeader>
+                      <SortableTableHeader
+                        name="status"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChange={sortChange}
+                      >
                         Status
-                      </th>
-                      <th scope="col" className="px-6 py-3">
+                      </SortableTableHeader>
+                      <SortableTableHeader
+                        name="created_at"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChange={sortChange}
+                      >
                         Created Date
-                      </th>
-                      <th scope="col" className="px-6 py-3">
+                      </SortableTableHeader>
+                      <SortableTableHeader
+                        name="due_date"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChange={sortChange}
+                      >
                         Due Date
-                      </th>
+                      </SortableTableHeader>
                       <th scope="col" className="px-6 py-3">
                         Created By
                       </th>
