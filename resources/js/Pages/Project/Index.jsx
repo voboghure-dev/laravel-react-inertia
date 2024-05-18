@@ -23,6 +23,21 @@ function Index({ auth, projects, queryParams = null }) {
     searchFieldChanged(name, e.target.value);
   };
 
+  const sortChange = (name) => {
+    if (name === queryParams.sort_field) {
+      if (queryParams.sort_direction === "asc") {
+        queryParams.sort_direction = "desc";
+      } else {
+        queryParams.sort_direction = "asc";
+      }
+    } else {
+      queryParams.sort_field = name;
+      queryParams.sort_direction = "asc";
+    }
+
+    router.get(route("project.index"), queryParams);
+  };
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -72,7 +87,11 @@ function Index({ auth, projects, queryParams = null }) {
                   </thead>
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" className="px-6 py-3">
+                      <th
+                        onClick={(e) => sortChange("id")}
+                        scope="col"
+                        className="px-6 py-3"
+                      >
                         ID
                       </th>
                       <th scope="col" className="px-6 py-3">
