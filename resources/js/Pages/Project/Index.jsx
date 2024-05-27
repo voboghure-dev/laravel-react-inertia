@@ -158,7 +158,11 @@ function Index({ auth, projects, queryParams = null }) {
                             style={{ width: 80 }}
                           />
                         </td>
-                        <td className="px-6 py-4">{project.name}</td>
+                        <td className="px-6 py-4 text-white text-nowrap hover:underline">
+                          <Link href={route("project.show", project.id)}>
+                            {project.name}
+                          </Link>
+                        </td>
                         <td className="px-6 py-4">
                           <span
                             className={
