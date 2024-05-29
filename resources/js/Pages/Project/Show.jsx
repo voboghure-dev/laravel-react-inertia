@@ -4,7 +4,7 @@ import React from "react";
 import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from "@/constants";
 import TasksTable from "../Task/TasksTable";
 
-const Show = ({ auth, project, tasks, queryParams }) => {
+export default function Show({ auth, project, tasks, queryParams }) {
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -90,6 +90,4 @@ const Show = ({ auth, project, tasks, queryParams }) => {
       </div>
     </AuthenticatedLayout>
   );
-};
-
-export default Show;
+}
