@@ -7,6 +7,7 @@ use App\Http\Resources\ProjectResource;
 use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller {
 	/**
@@ -86,14 +87,30 @@ class ProjectController extends Controller {
 	 * Show the form for editing the specified resource.
 	 */
 	public function edit( Project $project ) {
-		//
+		return inertia( 'Project/Edit', [
+			'project' => new ProjectResource( $project ),
+		] );
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 */
 	public function update( UpdateProjectRequest $request, Project $project ) {
-		//
+		$data               = $request->validated();
+		$data['created_by'] = Auth::id();
+		$data['updated_by'] = Auth::id();
+		$image              = $data['image'] ?? null;
+		if ( $image ) {
+			if ( $project->image_path ) {
+				Storage::disk( 'public' )->delete( $project->image_path );
+			}
+			$data['image_path'] = $image->store( 'projects', 'public' );
+		}
+
+		$project->update( $data );
+
+		return to_route( 'project.index' )->with( 'success', "Project \"$project->name\" was deleted" );
+
 	}
 
 	/**
@@ -101,6 +118,9 @@ class ProjectController extends Controller {
 	 */
 	public function destroy( Project $project ) {
 		$name = $project->name;
+		if ( $project->image_path ) {
+			Storage::disk( 'public' )->delete( $project->image_path );
+		}
 		$project->delete();
 
 		return to_route( 'project.index' )->with( 'success', "Project \"$name\" was deleted" );
