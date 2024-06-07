@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model {
 	use HasFactory;
 
+	public $fillable = [
+		'name',
+		'description',
+		'due_date',
+		'image_path',
+		'priority',
+		'status',
+		'assigned_user_id',
+		'project_id',
+		'created_by',
+		'updated_by',
+	];
+
 	public function project() {
 		return $this->belongsTo( Project::class );
 	}

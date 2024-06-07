@@ -55,7 +55,7 @@ class ProjectController extends Controller {
 		}
 		Project::create( $data );
 
-		return to_route( "project.index" )->with( 'success', 'Project was created.' );
+		return to_route( "project.index" )->with( 'success', 'Project has been successfully created.' );
 	}
 
 	/**
@@ -109,8 +109,7 @@ class ProjectController extends Controller {
 
 		$project->update( $data );
 
-		return to_route( 'project.index' )->with( 'success', "Project \"$project->name\" was deleted" );
-
+		return to_route( 'project.index' )->with( 'success', "Project \"$project->name\" has been successfully updated." );
 	}
 
 	/**
@@ -123,6 +122,6 @@ class ProjectController extends Controller {
 		}
 		$project->delete();
 
-		return to_route( 'project.index' )->with( 'success', "Project \"$name\" was deleted" );
+		return to_route( 'project.index' )->with( 'success', "Project \"$name\" has been successfully deleted." );
 	}
 }

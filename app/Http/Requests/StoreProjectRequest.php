@@ -19,7 +19,7 @@ class StoreProjectRequest extends FormRequest {
 	 */
 	public function rules(): array {
 		return [
-			"name"        => ['required', 'max:255'],
+			'name'        => ['required', 'max:255'],
 			'description' => ['nullable', 'string'],
 			'image'       => ['nullable', 'image'],
 			'due_date'    => ['nullable', 'date'],

@@ -39,6 +39,13 @@ const TasksTable = ({ tasks, queryParams, hideProjectColumn = false }) => {
     router.get(route("task.index"), queryParams);
   };
 
+  const deleteTask = (task) => {
+    if (!window.confirm("Are you sure you want to delete task")) {
+      return;
+    }
+    router.delete(route("task.destroy", task.id));
+  };
+
   return (
     <>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -160,17 +167,17 @@ const TasksTable = ({ tasks, queryParams, hideProjectColumn = false }) => {
               <td className="px-6 py-4">{task.created_by.name}</td>
               <td className="px-6 py-4 text-right">
                 <Link
-                  href="{route('task.edit', task.id)}"
+                  href={route("task.edit", task.id)}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-2"
                 >
                   Edit
                 </Link>
-                <Link
-                  href="{route('task.destroy', task.id)}"
+                <button
+                  onClick={(e) => deleteTask(task)}
                   className="font-medium text-red-600 dark:text-red-500 hover:underline"
                 >
                   Delete
-                </Link>
+                </button>
               </td>
             </tr>
           ))}
