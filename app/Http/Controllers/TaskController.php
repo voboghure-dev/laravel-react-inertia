@@ -34,6 +34,7 @@ class TaskController extends Controller {
 		return inertia( 'Task/Index', [
 			'tasks'       => TaskResource::collection( $tasks ),
 			'queryParams' => request()->query() ?: null,
+			'success'     => session( 'success' ),
 		] );
 	}
 
@@ -70,7 +71,9 @@ class TaskController extends Controller {
 	 * Display the specified resource.
 	 */
 	public function show( Task $task ) {
-		//
+		return inertia( 'Task/Show', [
+			'task' => new TaskResource( $task ),
+		] );
 	}
 
 	/**

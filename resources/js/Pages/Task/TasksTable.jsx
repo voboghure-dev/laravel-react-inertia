@@ -151,7 +151,9 @@ const TasksTable = ({ tasks, queryParams, hideProjectColumn = false }) => {
               {!hideProjectColumn && (
                 <td className="px-6 py-4">{task.project.name}</td>
               )}
-              <td className="px-6 py-4">{task.name}</td>
+              <td className="px-6 py-4 text-gray-100 hover:underline">
+                <Link href={route("task.show", task.id)}>{task.name}</Link>
+              </td>
               <td className="px-6 py-4">
                 <span
                   className={
@@ -165,7 +167,7 @@ const TasksTable = ({ tasks, queryParams, hideProjectColumn = false }) => {
               <td className="px-6 py-4">{task.created_at}</td>
               <td className="px-6 py-4">{task.due_date}</td>
               <td className="px-6 py-4">{task.created_by.name}</td>
-              <td className="px-6 py-4 text-right">
+              <td className="px-6 py-4 text-right text-nowrap">
                 <Link
                   href={route("task.edit", task.id)}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-2"
