@@ -3,7 +3,6 @@ import { Head, Link } from "@inertiajs/react";
 import TasksTable from "./TasksTable";
 
 const Index = ({ auth, tasks, queryParams = null, success }) => {
-  console.log(success);
 
   return (
     <AuthenticatedLayout
