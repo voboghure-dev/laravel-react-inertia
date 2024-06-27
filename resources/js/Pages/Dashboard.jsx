@@ -12,7 +12,6 @@ export default function Dashboard({
   myCompletedTasks,
   latestTasks,
 }) {
-  console.log(latestTasks);
   return (
     <AuthenticatedLayout
       user={auth.user}

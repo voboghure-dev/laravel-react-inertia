@@ -164,7 +164,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,60 @@ INSERT INTO `migrations` VALUES (10,'0001_01_01_000001_create_cache_table',1);
 INSERT INTO `migrations` VALUES (11,'0001_01_01_000002_create_jobs_table',1);
 INSERT INTO `migrations` VALUES (12,'2024_04_26_121927_create_projects_table',1);
 INSERT INTO `migrations` VALUES (13,'2024_04_26_121943_create_tasks_table',1);
+INSERT INTO `migrations` VALUES (14,'2024_06_26_182305_create_permission_tables',2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+DROP TABLE IF EXISTS `model_has_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint(20) unsigned NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`),
+  CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `model_has_permissions`
+--
+
+LOCK TABLES `model_has_permissions` WRITE;
+/*!40000 ALTER TABLE `model_has_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `model_has_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+DROP TABLE IF EXISTS `model_has_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint(20) unsigned NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`),
+  CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `model_has_roles`
+--
+
+LOCK TABLES `model_has_roles` WRITE;
+/*!40000 ALTER TABLE `model_has_roles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `model_has_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -206,6 +259,33 @@ LOCK TABLES `password_reset_tokens` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `permissions`
+--
+
+DROP TABLE IF EXISTS `permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `permissions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permissions`
+--
+
+LOCK TABLES `permissions` WRITE;
+/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `projects`
 --
 
@@ -228,7 +308,7 @@ CREATE TABLE `projects` (
   KEY `projects_updated_by_foreign` (`updated_by`),
   CONSTRAINT `projects_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
   CONSTRAINT `projects_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +347,61 @@ INSERT INTO `projects` VALUES (27,'Sed accusamus qui aperiam et dignissimos vero
 INSERT INTO `projects` VALUES (28,'Quo autem nulla doloribus ea impedit.','So Alice got up and repeat \"\'TIS THE VOICE OF THE SLUGGARD,\"\' said the King said to herself, (not in a natural way again. \'I should like it put more simply--\"Never imagine yourself not to make out.','2024-09-20 20:31:25','https://via.placeholder.com/640x480.png/0011dd?text=eveniet','completed',1,1,'2024-04-26 06:54:45','2024-04-26 06:54:45');
 INSERT INTO `projects` VALUES (29,'Exercitationem sint ea voluptatem eaque voluptatem et.','Alice, rather doubtfully, as she could. \'No,\' said Alice. \'Why?\' \'IT DOES THE BOOTS AND SHOES.\' the Gryphon whispered in a coaxing tone, and added with a kind of authority over Alice. \'Stand up and.','2024-08-03 02:17:45','https://via.placeholder.com/640x480.png/00dd55?text=iste','pending',1,1,'2024-04-26 06:54:45','2024-04-26 06:54:45');
 INSERT INTO `projects` VALUES (30,'Ut dicta in ex reiciendis.','Dormouse go on crying in this affair, He trusts to you how it was very likely to eat or drink under the window, and some were birds,) \'I suppose so,\' said the Gryphon, and the sound of a dance is.','2025-03-26 07:55:59','https://via.placeholder.com/640x480.png/001188?text=alias','in_progress',1,1,'2024-04-26 06:54:45','2024-04-26 06:54:45');
+INSERT INTO `projects` VALUES (36,'project with image','Test','2024-04-30 18:00:00','projects/vaD0fnYtTco83PXkS4CcBM11wDSZssF0ASEYJchg.jpg','pending',1,1,'2024-05-29 18:20:00','2024-05-29 18:35:42');
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+DROP TABLE IF EXISTS `role_has_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) unsigned NOT NULL,
+  `role_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`role_id`),
+  KEY `role_has_permissions_role_id_foreign` (`role_id`),
+  CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+LOCK TABLES `role_has_permissions` WRITE;
+/*!40000 ALTER TABLE `role_has_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `role_has_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `roles` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -296,7 +430,13 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('O46LiGFpbMwt1WtU4T9rW38cVue5Kn6HZrseTLDa',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYXlUdU81QWZxelhsMVJaUmpnMmFucUd1Q0toa1ZZYVRFNkZueDlzUSI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMzOiJodHRwOi8vcG9zLWxhcmF2ZWwtMTEubG9jYWwvbG9naW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=',1716141701);
+INSERT INTO `sessions` VALUES ('111sk608Jawks682sXAIWt2SuX0L6o3gGxo8m7cn',NULL,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoibjRLck1HTVZpTTdaUEZhQ29Ia0RPaWJubGt0NHFPMXpoMUJNeHF0SyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozNzoiaHR0cDovL3Bvcy1sYXJhdmVsLTExLmxvY2FsL2Rhc2hib2FyZCI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMzOiJodHRwOi8vcG9zLWxhcmF2ZWwtMTEubG9jYWwvbG9naW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19',1719198786);
+INSERT INTO `sessions` VALUES ('96a2MiqGk4VmKlU4DgGmsxlq4YNCsbCgBHIpOWd0',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiTjFHWnQ1QklFSzVuRGxsNFlEd1B4cnZWbnFubks0SzNtNXljSmNzViI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM3OiJodHRwOi8vcG9zLWxhcmF2ZWwtMTEubG9jYWwvZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1719350518);
+INSERT INTO `sessions` VALUES ('Ct50miwaiS2upsVWkSRNJmokcXwlUG37x0Un0Vs4',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiVk5MQ0o0cG8zZUZNS2gybnlxWWhhNDJGYnE0a3ltNmRiOG9CSER2ayI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM3OiJodHRwOi8vcG9zLWxhcmF2ZWwtMTEubG9jYWwvZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1719413320);
+INSERT INTO `sessions` VALUES ('DsZVCo0dbkL6gceOHyvfWqSkCZU78BLwd0jbbpbj',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiejF2ZmY1WHRpZXFTaUE4aUJIQlJXRGt1aGlvU0xPUU5XcGs2NWN6eiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly9wb3MtbGFyYXZlbC0xMS5sb2NhbC9kYXNoYm9hcmQiO319',1719176841);
+INSERT INTO `sessions` VALUES ('ekoM8P1nRTJlNSRmTOVa8uwVwGotU73KTpt1V5Lu',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYVFQeE9QN0VYcEdpVzBPd1ozYTdiek9BakRRemFOQ2FPWWNXYnpyYyI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM3OiJodHRwOi8vcG9zLWxhcmF2ZWwtMTEubG9jYWwvZGFzaGJvYXJkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1719330486);
+INSERT INTO `sessions` VALUES ('eXvb2qanTOydTWHarMkTJUSRpNypTTOgxqzwymqe',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiTVZZV1JPdEdMWGhKdGQ3a1RrTFZqSGhxOWtPTnE1MXlHT0hqR3pQTCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly9wb3MtbGFyYXZlbC0xMS5sb2NhbC90YXNrLzkiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjM6InVybCI7YTowOnt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1719255320);
+INSERT INTO `sessions` VALUES ('Nb9tQ0PB5l9m1kB3OWhSWghws5YijFabfV2JguVH',1,'127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiQVZFcGh6NHpSZmVBTEdYOWRDSzdxekVFb3llQVdmMHMyZmlYT05ZbiI7czozOiJ1cmwiO2E6MDp7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly9wb3MtbGFyYXZlbC0xMS5sb2NhbC9kYXNoYm9hcmQiO319',1719431380);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,7 +470,7 @@ CREATE TABLE `tasks` (
   CONSTRAINT `tasks_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
   CONSTRAINT `tasks_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
   CONSTRAINT `tasks_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=901 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=903 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -339,7 +479,6 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (1,'Voluptas reiciendis reprehenderit nemo amet neque sunt iste.','Alice replied thoughtfully. \'They have their tails in their mouths; and the blades of grass, but she had succeeded in getting its body tucked away, comfortably enough, under her arm, and timidly.','2025-01-06 05:29:30','https://via.placeholder.com/640x480.png/0011ee?text=perspiciatis','medium','completed',1,1,1,1,'2024-04-26 06:54:45','2024-04-26 06:54:45');
 INSERT INTO `tasks` VALUES (2,'Eligendi consequatur laborum et non.','SOME change in my size; and as the whole pack of cards: the Knave \'Turn them over!\' The Knave shook his grey locks, \'I kept all my limbs very supple By the use of this elegant thimble\'; and, when it.','2025-03-01 16:26:53','https://via.placeholder.com/640x480.png/001111?text=quibusdam','high','completed',1,1,1,1,'2024-04-26 06:54:45','2024-04-26 06:54:45');
 INSERT INTO `tasks` VALUES (3,'Omnis est dolores et porro nostrum aut.','But the snail replied \"Too far, too far!\" and gave a little anxiously. \'Yes,\' said Alice, who had been of late much accustomed to usurpation and conquest. Edwin and Morcar, the earls of Mercia and.','2024-09-21 17:18:26','https://via.placeholder.com/640x480.png/004477?text=quia','medium','completed',1,1,1,1,'2024-04-26 06:54:45','2024-04-26 06:54:45');
 INSERT INTO `tasks` VALUES (4,'Commodi est a est atque omnis.','I\'ll try and repeat \"\'TIS THE VOICE OF THE SLUGGARD,\"\' said the King. \'It began with the glass table and the Queen\'s shrill cries to the croquet-ground. The other guests had taken advantage of the.','2024-11-27 15:52:14','https://via.placeholder.com/640x480.png/00ccbb?text=assumenda','medium','completed',1,1,1,1,'2024-04-26 06:54:45','2024-04-26 06:54:45');
@@ -1119,12 +1258,7 @@ INSERT INTO `tasks` VALUES (777,'Voluptatem nulla eos minus eos quis.','Mock Tur
 INSERT INTO `tasks` VALUES (778,'Fugiat repudiandae earum omnis voluptas.','Alice replied, so eagerly that the way out of the suppressed guinea-pigs, filled the air, and came flying down upon her: she gave a little shriek, and went down on one knee as he spoke, \'we were.','2025-01-25 03:39:28','https://via.placeholder.com/640x480.png/007799?text=ut','high','completed',1,1,1,26,'2024-04-26 06:54:50','2024-04-26 06:54:50');
 INSERT INTO `tasks` VALUES (779,'Et itaque exercitationem sed incidunt quos est nihil.','IV. The Rabbit Sends in a dreamy sort of thing never happened, and now here I am now? That\'ll be a walrus or hippopotamus, but then she had never been in a very poor speaker,\' said the Footman.','2024-07-24 20:44:42','https://via.placeholder.com/640x480.png/001188?text=et','high','in_progress',1,1,1,26,'2024-04-26 06:54:50','2024-04-26 06:54:50');
 INSERT INTO `tasks` VALUES (780,'Consequatur magni fugit placeat a nulla.','First, however, she again heard a little timidly, for she was holding, and she trembled till she shook the house, \"Let us both go to on the Duchess\'s knee, while plates and dishes crashed around.','2025-03-14 15:36:55','https://via.placeholder.com/640x480.png/00aabb?text=voluptas','medium','in_progress',1,1,1,26,'2024-04-26 06:54:50','2024-04-26 06:54:50');
-INSERT INTO `tasks` VALUES (781,'Dicta temporibus ex sit aperiam id.','It was the matter with it. There could be no use their putting their heads downward! The Antipathies, I think--\' (for, you see, Miss, this here ought to speak, and no room to grow up again! Let me.','2024-12-02 20:16:19','https://via.placeholder.com/640x480.png/0055ff?text=necessitatibus','medium','in_progress',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
-INSERT INTO `tasks` VALUES (782,'Vitae fugiat alias dignissimos minima cumque.','I\'m afraid, but you might catch a bat, and that\'s all you know what you like,\' said the King exclaimed, turning to Alice to herself, and shouted out, \'You\'d better not talk!\' said Five. \'I heard the.','2024-05-20 13:22:07','https://via.placeholder.com/640x480.png/000088?text=dolore','medium','completed',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
-INSERT INTO `tasks` VALUES (783,'Ut voluptatem esse inventore voluptatem molestiae blanditiis.','Alice in a very hopeful tone though), \'I won\'t have any pepper in that soup!\' Alice said nothing: she had grown so large in the middle, nursing a baby; the cook till his eyes very wide on hearing.','2024-07-03 16:00:20','https://via.placeholder.com/640x480.png/00ee55?text=distinctio','high','in_progress',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
-INSERT INTO `tasks` VALUES (784,'Vero dolorem quos deserunt ut numquam ad.','COULD grin.\' \'They all can,\' said the King. \'Nothing whatever,\' said Alice. The poor little thing sat down again very sadly and quietly, and looked at Alice, and looking anxiously round to see if he.','2024-05-21 16:10:20','https://via.placeholder.com/640x480.png/001199?text=et','low','completed',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
-INSERT INTO `tasks` VALUES (785,'Est est architecto est culpa.','Dormouse; \'VERY ill.\' Alice tried to fancy to herself \'It\'s the oldest rule in the other: the only difficulty was, that anything that looked like the three gardeners, but she saw maps and pictures.','2024-06-27 02:25:27','https://via.placeholder.com/640x480.png/0011ee?text=sint','low','in_progress',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
-INSERT INTO `tasks` VALUES (786,'Repellendus libero sit possimus inventore officiis.','Queen never left off staring at the Cat\'s head with great curiosity. \'It\'s a pun!\' the King exclaimed, turning to Alice with one of the Mock Turtle. \'Certainly not!\' said Alice to herself, \'I don\'t.','2025-01-06 19:44:44','https://via.placeholder.com/640x480.png/001144?text=incidunt','medium','pending',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
+INSERT INTO `tasks` VALUES (785,'Est est architecto est culpa. test','Dormouse; \'VERY ill.\' Alice tried to fancy to herself \'It\'s the oldest rule in the other: the only difficulty was, that anything that looked like the three gardeners, but she saw maps and pictures.','2024-06-26 18:00:00','https://via.placeholder.com/640x480.png/0011ee?text=sint','low','in_progress',2,1,1,27,'2024-04-26 06:54:51','2024-06-08 13:05:37');
 INSERT INTO `tasks` VALUES (787,'Ratione similique et recusandae provident fugit aliquid numquam consequuntur.','I think it would feel very queer to ME.\' \'You!\' said the Gryphon, sighing in his confusion he bit a large flower-pot that stood near. The three soldiers wandered about for a dunce? Go on!\' \'I\'m a.','2024-12-24 18:47:43','https://via.placeholder.com/640x480.png/007744?text=est','medium','in_progress',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
 INSERT INTO `tasks` VALUES (788,'Error unde sit cum quaerat et.','Bill had left off quarrelling with the glass table as before, \'It\'s all about it!\' Last came a rumbling of little Alice was beginning to grow here,\' said the last words out loud, and the baby with.','2025-01-21 00:36:35','https://via.placeholder.com/640x480.png/00bb22?text=eum','medium','pending',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
 INSERT INTO `tasks` VALUES (789,'Est id non qui adipisci porro et eius.','Duchess replied, in a natural way. \'I thought you did,\' said the Gryphon. \'How the creatures argue. It\'s enough to look through into the open air. \'IF I don\'t keep the same thing as \"I get what I.','2024-06-29 08:53:24','https://via.placeholder.com/640x480.png/00dd99?text=at','low','pending',1,1,1,27,'2024-04-26 06:54:51','2024-04-26 06:54:51');
@@ -1239,6 +1373,7 @@ INSERT INTO `tasks` VALUES (897,'Ducimus qui fuga rerum ut minima dolores.','Ali
 INSERT INTO `tasks` VALUES (898,'Vel earum beatae rerum.','She felt very glad she had been anything near the house opened, and a Canary called out \'The Queen! The Queen!\' and the Dormouse again, so she went on. Her listeners were perfectly quiet till she.','2024-07-20 08:49:11','https://via.placeholder.com/640x480.png/00ff33?text=ea','low','pending',1,1,1,30,'2024-04-26 06:54:51','2024-04-26 06:54:51');
 INSERT INTO `tasks` VALUES (899,'Qui esse vel accusamus.','WHAT?\' thought Alice; \'but a grin without a moment\'s delay would cost them their lives. All the time when she heard the Queen\'s hedgehog just now, only it ran away when it had VERY long claws and a.','2024-12-09 10:00:12','https://via.placeholder.com/640x480.png/0055bb?text=voluptas','high','in_progress',1,1,1,30,'2024-04-26 06:54:51','2024-04-26 06:54:51');
 INSERT INTO `tasks` VALUES (900,'Nulla et eos modi aliquid.','I\'ll tell you his history,\' As they walked off together, Alice heard the Rabbit noticed Alice, as the doubled-up soldiers were silent, and looked at it uneasily, shaking it every now and then keep.','2024-10-29 12:56:49','https://via.placeholder.com/640x480.png/003300?text=cumque','low','completed',1,1,1,30,'2024-04-26 06:54:51','2024-04-26 06:54:51');
+INSERT INTO `tasks` VALUES (902,'test','afdasf','2024-06-09 18:00:00','tasks/h7x0VqnYK24eaYhU1B9cFFnzASDZV45p6z51DKqE.png','low','pending',2,1,1,14,'2024-06-08 00:13:06','2024-06-08 00:13:06');
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1260,7 +1395,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1269,7 +1404,8 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin User','admin@admin.com','2024-04-26 06:54:44','$2y$12$PbGtgT4vtpUfWA8YU058Le8cTCDObWZzNlxkwLoR.e4fM2XqlsFeS','Z6SX8muXEzkaleL7SEKVjRfIdn2Amekf1AmJBouoJ8iQD5qWRBcUuMItfeDf','2024-04-26 06:54:45','2024-04-26 06:54:45');
+INSERT INTO `users` VALUES (1,'Admin User','admin@admin.com','2024-04-26 06:54:44','$2y$12$PbGtgT4vtpUfWA8YU058Le8cTCDObWZzNlxkwLoR.e4fM2XqlsFeS','FhMxHhwySaph4qe2y49YCiQy3BxkNEpNONLKAN4qc6KitSXngZi7bUbvxgDG','2024-04-26 06:54:45','2024-04-26 06:54:45');
+INSERT INTO `users` VALUES (2,'test','test@gmail.com',NULL,'$2y$12$8PFGTCtYu.6v2JL3QIg/BefpwwrqN7Rl8Fb3wLRUODBaMhO2b8HL6',NULL,'2024-05-30 02:39:43','2024-05-30 13:00:33');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1282,4 +1418,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-20  1:51:12
+-- Dump completed on 2024-06-27  9:28:24
