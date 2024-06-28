@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -29,6 +30,7 @@ Route::middleware( ['auth', 'verified'] )->group( function () {
 	Route::get( 'task/my-tasks', [TaskController::class, 'myTasks'] )->name( 'task.myTasks' );
 	Route::resource( 'task', TaskController::class );
 	Route::resource( 'user', UserController::class );
+	Route::resource( 'permission', PermissionController::class );
 } );
 
 Route::middleware( 'auth' )->group( function () {
