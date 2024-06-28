@@ -4,17 +4,16 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Edit({ auth, permission }) {
+export default function Create({ auth }) {
   const { data, setData, post, errors, reset } = useForm({
-    name: permission.name || "",
+    name: "",
     guard_name: "web",
-    _method: "PUT",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    post(route("permission.update", permission.id));
+    post(route("role.store"));
   };
 
   return (
@@ -23,12 +22,12 @@ export default function Edit({ auth, permission }) {
       header={
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Update Permission
+            Create New Role
           </h2>
         </div>
       }
     >
-      <Head title="Update Permission" />
+      <Head title="Create New Role" />
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -38,9 +37,9 @@ export default function Edit({ auth, permission }) {
               className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
             >
               <div className="mt-4">
-                <InputLabel htmlFor="permission_name" value="Permission Name" />
+                <InputLabel htmlFor="role_name" value="Role Name" />
                 <TextInput
-                  id="permission_name"
+                  id="role_name"
                   type="text"
                   name="name"
                   value={data.name}
@@ -64,7 +63,7 @@ export default function Edit({ auth, permission }) {
                   Reset
                 </button>
                 <Link
-                  href={route("permission.index")}
+                  href={route("role.index")}
                   className="bg-gray-100 py-1 px-3 text-gray-800 rounded shadow transition-all hover:bg-gray-200"
                 >
                   Cancel

@@ -82,9 +82,9 @@ export default function AuthenticatedLayout({ user, header, children }) {
                       <Dropdown.Link href={route("user.index")}>
                         User
                       </Dropdown.Link>
-                      {/* <Dropdown.Link href={route("role.index")}>
+                      <Dropdown.Link href={route("role.index")}>
                         Role
-                      </Dropdown.Link> */}
+                      </Dropdown.Link>
                       <Dropdown.Link href={route("permission.index")}>
                         Permission
                       </Dropdown.Link>
