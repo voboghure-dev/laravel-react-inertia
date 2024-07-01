@@ -33,6 +33,8 @@ Route::middleware( ['auth', 'verified'] )->group( function () {
 	Route::resource( 'user', UserController::class );
 	Route::resource( 'permission', PermissionController::class );
 	Route::resource( 'role', RoleController::class );
+	Route::get( 'role/{role}/add-permission', [RoleController::class, 'addPermissionToRole'] )->name( 'role.addPermission' );
+	Route::post( 'role/{role}/give-permission', [RoleController::class, 'givePermissionToRole'] )->name( 'role.givePermission' );
 } );
 
 Route::middleware( 'auth' )->group( function () {

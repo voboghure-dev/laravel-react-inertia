@@ -4,12 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import SortableTableHeader from "@/Components/SortableTableHeader";
 
-export default function Index({
-  auth,
-  roles,
-  queryParams = null,
-  success,
-}) {
+export default function Index({ auth, roles, queryParams = null, success }) {
   queryParams = queryParams || {};
 
   const searchFieldChanged = (name, value) => {
@@ -144,6 +139,12 @@ export default function Index({
                         </td>
                         <td className="px-6 py-4">{role.created_at}</td>
                         <td className="px-6 py-4 text-right text-nowrap">
+                          <Link
+                            href={route("role.addPermission", role.id)}
+                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-2"
+                          >
+                            Add Premission
+                          </Link>
                           <Link
                             href={route("role.edit", role.id)}
                             className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-2"

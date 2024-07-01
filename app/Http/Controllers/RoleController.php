@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
-use App\Models\Role;
+// use App\Models\Permission;
+// use App\Models\Role;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller {
 	/**
@@ -81,5 +85,42 @@ class RoleController extends Controller {
 		$role->delete();
 
 		return to_route( 'role.index' )->with( 'success', "Role \"$name\" has been successfully deleted." );
+	}
+
+	/**
+	 * Add permission to role
+	 *
+	 * @param Role $role
+	 * @return void
+	 */
+	public function addPermissionToRole( Role $role ) {
+		$permissions     = Permission::get();
+		$rolePermissions = $role->getPermissionNames();
+
+		return inertia( 'Role/AddPermission', [
+			'role'            => $role,
+			'permissions'     => $permissions,
+			'rolePermissions' => $rolePermissions,
+			'success'         => session( 'success' ),
+			'error'           => session( 'error' ),
+		] );
+	}
+
+	/**
+	 * Give permission to role
+	 *
+	 * @param Request $request
+	 * @param Role $role
+	 * @return void
+	 */
+	public function givePermissionToRole( Request $request, Role $role ) {
+		$request->validate( [
+			'userPermission' => 'required',
+		] );
+		if ( $role->syncPermissions( $request->userPermission ) ) {
+			return redirect()->back()->with( 'success', 'Permissions added to role' );
+		} else {
+			return redirect()->back()->with( 'error', 'Unable to add permission to role' );
+		}
 	}
 }
