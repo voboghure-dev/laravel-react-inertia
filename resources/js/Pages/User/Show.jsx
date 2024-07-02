@@ -4,7 +4,7 @@ import React from "react";
 import { USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants";
 import TasksTable from "../Task/TasksTable";
 
-export default function Show({ auth, user, tasks, queryParams }) {
+export default function Show({ auth, user }) {
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -70,20 +70,6 @@ export default function Show({ auth, user, tasks, queryParams }) {
                 <label className="font-bold text-lg">Description</label>
                 <p>{user.description}</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="pb-12">
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
-              <TasksTable
-                tasks={tasks}
-                queryParams={queryParams}
-                hideUserColumn={true}
-              />
             </div>
           </div>
         </div>

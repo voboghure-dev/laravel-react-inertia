@@ -1,14 +1,16 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Edit({ auth, user }) {
+export default function Edit({ auth, user, roles }) {
   const { data, setData, put, errors, reset } = useForm({
     name: user.name || "",
     email: user.email || "",
     password: "",
+    user_role: user.roles || ""
   });
 
   const onSubmit = (e) => {
@@ -99,6 +101,23 @@ export default function Edit({ auth, user }) {
                   message={errors.password_confirmation}
                   className="mt-2"
                 />
+              </div>
+              <div className="mt-4">
+                <InputLabel htmlFor="user_role" value="Role" />
+                <SelectInput
+                  id="user_role"
+                  name="user_role"
+                  className="mt-1 block w-full"
+                  value={data.user_role}
+                  onChange={(e) => setData("user_role", e.target.value)}
+                >
+                  {roles.map((role) => (
+                    <option value={role.name} key={role.id}>
+                      {role.name}
+                    </option>
+                  ))}
+                </SelectInput>
+                <InputError message={errors.user_role} className="mt-2" />
               </div>
               <div className="mt-4 gap-2 flex flex-row-reverse">
                 <button

@@ -53,7 +53,16 @@ export default function AuthenticatedLayout({ user, header, children }) {
                   User
                 </NavLink> */}
 
-                <div className={"sm:flex sm:items-center sm:ms-6 " + (route().current("user.index") || route().current("task.index") ? "border-b-2 border-indigo-400 dark:border-indigo-600" : "")}>
+                <div
+                  className={
+                    "sm:flex sm:items-center sm:ms-6 " +
+                    (route().current("user.*") ||
+                    route().current("role.*") ||
+                    route().current("permission.*")
+                      ? "border-b-2 border-indigo-400 dark:border-indigo-600"
+                      : "")
+                  }
+                >
                   <Dropdown>
                     <Dropdown.Trigger>
                       <span className="inline-flex rounded-md">

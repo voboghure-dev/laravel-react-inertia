@@ -5,6 +5,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCrudResource;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller {
 	/**
@@ -36,7 +37,11 @@ class UserController extends Controller {
 	 * Show the form for creating a new resource.
 	 */
 	public function create() {
-		return inertia( 'User/Create' );
+		$roles = Role::get();
+
+		return inertia( 'User/Create', [
+			'roles' => $roles,
+		] );
 	}
 
 	/**
@@ -46,7 +51,10 @@ class UserController extends Controller {
 		$data                      = $request->validated();
 		$data['password']          = bcrypt( $data['password'] );
 		$data['email_verified_at'] = time();
-		User::create( $data );
+
+		$user = User::create( $data );
+
+		$user->syncRoles( $request->user_role );
 
 		return to_route( "user.index" )->with( 'success', 'User has been successfully created.' );
 	}
@@ -62,8 +70,11 @@ class UserController extends Controller {
 	 * Show the form for editing the specified resource.
 	 */
 	public function edit( User $user ) {
+		$roles = Role::get();
+
 		return inertia( 'User/Edit', [
-			'user' => new UserCrudResource( $user ),
+			'user'  => new UserCrudResource( $user ),
+			'roles' => $roles,
 		] );
 	}
 
@@ -78,7 +89,10 @@ class UserController extends Controller {
 		} else {
 			unset( $data['password'] );
 		}
+
 		$user->update( $data );
+
+		$user->syncRoles( $request->user_role );
 
 		return to_route( "user.index" )->with( 'success', 'User has been successfully updated.' );
 	}

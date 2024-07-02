@@ -18,7 +18,6 @@ export default function Index({ auth, users, queryParams = null, success }) {
 
   const onKeyPress = (name, e) => {
     if (e.key !== "Enter") return;
-console.log(name);
     searchFieldChanged(name, e.target.value);
   };
 
@@ -99,7 +98,7 @@ console.log(name);
                           onKeyPress={(e) => onKeyPress("email", e)}
                         />
                       </th>
-                      <th colSpan={2} scope="col" className="px-6 py-3"></th>
+                      <th colSpan={3} scope="col" className="px-6 py-3"></th>
                     </tr>
                   </thead>
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -127,6 +126,14 @@ console.log(name);
                         sortChange={sortChange}
                       >
                         Email
+                      </SortableTableHeader>
+                      <SortableTableHeader
+                        name="role"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChange={sortChange}
+                      >
+                        Role
                       </SortableTableHeader>
                       <SortableTableHeader
                         name="created_at"
@@ -157,6 +164,11 @@ console.log(name);
                           {user.name}
                         </td>
                         <td className="px-6 py-4">{user.email}</td>
+                        <td className="px-6 py-4">
+                          {user.roles.map((role) => (
+                            <span className="bg-green-400 rounded text-gray-800 font-bold px-2 py-1" key={user.id}>{role}</span>
+                          ))}
+                        </td>
                         <td className="px-6 py-4">{user.created_at}</td>
                         <td className="px-6 py-4 text-right text-nowrap">
                           <Link
