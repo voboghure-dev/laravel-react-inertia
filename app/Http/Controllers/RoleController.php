@@ -4,13 +4,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
-// use App\Models\Permission;
-// use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RoleController extends Controller {
+class RoleController extends Controller implements HasMiddleware {
+	/**
+	 * Get the middleware that should be assigned to the controller.
+	 */
+	public static function middleware(): array {
+		return [
+			new Middleware( PermissionMiddleware::using( 'view role' ), only: ['index'] ),
+			new Middleware( PermissionMiddleware::using( 'add role' ), only: ['create', 'store', 'addPermissionToRole', 'givePermissionToRole'] ),
+			new Middleware( PermissionMiddleware::using( 'edit role' ), only: ['edit', 'update'] ),
+			new Middleware( PermissionMiddleware::using( 'delete role' ), only: ['destroy'] ),
+		];
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 */
@@ -38,7 +51,6 @@ class RoleController extends Controller {
 	 */
 	public function create() {
 		return inertia( 'Role/Create' );
-
 	}
 
 	/**
