@@ -5,8 +5,17 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import { router, Link } from "@inertiajs/react";
 
-const TasksTable = ({ tasks, queryParams, hideProjectColumn = false }) => {
+const TasksTable = ({
+  tasks,
+  queryParams,
+  myPermissions,
+  hideProjectColumn = false,
+}) => {
   queryParams = queryParams || {};
+  let action =
+    myPermissions.includes("edit task") ||
+    myPermissions.includes("delete task");
+  console.log(action);
 
   const searchFieldChanged = (name, value) => {
     if (value) {
@@ -72,7 +81,7 @@ const TasksTable = ({ tasks, queryParams, hideProjectColumn = false }) => {
                 <option value="completed">Completed</option>
               </SelectInput>
             </th>
-            <th colSpan={4} scope="col" className="px-6 py-3"></th>
+            <th colSpan={action ? 4 : 3} scope="col" className="px-6 py-3"></th>
           </tr>
         </thead>
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -128,9 +137,11 @@ const TasksTable = ({ tasks, queryParams, hideProjectColumn = false }) => {
             <th scope="col" className="px-6 py-3">
               Created By
             </th>
-            <th scope="col" className="px-6 py-3 text-right">
-              Action
-            </th>
+            {action && (
+              <th scope="col" className="px-6 py-3 text-right">
+                Action
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -167,20 +178,26 @@ const TasksTable = ({ tasks, queryParams, hideProjectColumn = false }) => {
               <td className="px-6 py-4">{task.created_at}</td>
               <td className="px-6 py-4">{task.due_date}</td>
               <td className="px-6 py-4">{task.created_by.name}</td>
-              <td className="px-6 py-4 text-right text-nowrap">
-                <Link
-                  href={route("task.edit", task.id)}
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-2"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={(e) => deleteTask(task)}
-                  className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                >
-                  Delete
-                </button>
-              </td>
+              {action && (
+                <td className="px-6 py-4 text-right text-nowrap">
+                  {myPermissions.includes("edit task") && (
+                    <Link
+                      href={route("task.edit", task.id)}
+                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline px-2"
+                    >
+                      Edit
+                    </Link>
+                  )}
+                  {myPermissions.includes("delete task") && (
+                    <button
+                      onClick={(e) => deleteTask(task)}
+                      className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                    >
+                      Delete
+                    </button>
+                  )}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

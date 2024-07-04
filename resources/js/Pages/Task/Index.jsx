@@ -2,8 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import TasksTable from "./TasksTable";
 
-const Index = ({ auth, tasks, queryParams = null, success }) => {
-
+const Index = ({ auth, tasks, queryParams = null, myPermissions, success }) => {
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -13,12 +12,14 @@ const Index = ({ auth, tasks, queryParams = null, success }) => {
             Tasks
           </h2>
 
-          <Link
-            href={route("task.create")}
-            className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
-          >
-            Add New
-          </Link>
+          {myPermissions.includes("add task") && (
+            <Link
+              href={route("task.create")}
+              className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
+            >
+              Add New
+            </Link>
+          )}
         </div>
       }
     >
@@ -34,7 +35,11 @@ const Index = ({ auth, tasks, queryParams = null, success }) => {
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <TasksTable tasks={tasks} queryParams={queryParams} />
+                <TasksTable
+                  tasks={tasks}
+                  queryParams={queryParams}
+                  myPermissions={myPermissions}
+                />
               </div>
             </div>
           </div>
